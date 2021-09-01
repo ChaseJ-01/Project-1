@@ -1,0 +1,7 @@
+Put a header on the login card in index.html
+
+Yale Blue: #064789
+Steel Blue: #427AA1
+Alice Blue: #EBF2FA
+Maximum Green: #679436
+Acid Green: #A5BE00

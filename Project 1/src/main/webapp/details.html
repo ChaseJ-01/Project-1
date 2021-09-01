@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="BaseStyle.css">
+</head>
+<body>
+    <div style="padding-top: 3%">
+        <div class="card" style="width: 30%; margin: 0px auto;">
+            <div class="card-header" style="background-color: #a5be00;">
+                <h4>Reimbursement Request #12345</h4>
+            </div>
+            <div class="card-body" style="background-color: #427aa1; color: #000;">
+                <div class="container">
+                    <div class="row" style="border: 1px solid #064789;">
+                        <div class="col col-md-4" style="background-color: #679436">
+                            <h5 style="padding-top: 5px;">Status</h5>
+                        </div>
+                        <div class="col" style="background-color: #ebf2fa; color: #000;">
+                            <h5 style="padding-top: 5px;" id="request_status">Pending</h5>
+                        </div>
+                    </div>
+                    <div class="row" style="border: 1px solid #064789">
+                        <div class="col col-md-4" style="background-color: #679436">
+                            <h5 style="padding-top: 5px;">Employee</h5>
+                        </div>
+                        <div class="col" style="background-color: #ebf2fa; color: #000;">
+                            <h5 style="padding-top: 5px;" id="request_employee">Mark Gold</h5>
+                        </div>
+                    </div>
+                    <div class="row" style="border: 1px solid #064789">
+                        <div class="col col-md-4" style="background-color: #679436">
+                            <h5 style="padding-top: 5px;">Amount</h5>
+                        </div>
+                        <div class="col" style="background-color: #ebf2fa; color: #000;">
+                            <h5 style="padding-top: 5px;" id="request_amount">$500.00</h5>
+                        </div>
+                    </div>
+                    <div class="row" style="border: 1px solid #064789">
+                        <div class="col col-md-4" style="background-color: #679436">
+                            <h5 style="padding-top: 5px;">Type</h5>
+                        </div>
+                        <div class="col" style="background-color: #ebf2fa; color: #000;">
+                            <h5 style="padding-top: 5px;" id="request_type">Travel</h5>
+                        </div>
+                    </div>
+                    <br>
+                    <div>
+                        <div class="row" style="background-color: #679436">
+                            <h5 style="padding-top: 5px;">Description</h5>
+                        </div>
+                        <div class="row" style="background-color: #ebf2fa; color: #000;">
+                            <p style="padding-top: 5px;" id="request_desc">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-success btn-custom" type="button" id="request_approve">Approve</button>
+                        </div>
+                        <div class="col offset-md-1">
+                            <button class="btn btn-warning" type="button" id="request_reject">Reject</button>
+                        </div>
+                        <div class="col offset-md-1">
+                            <button class="btn btn-danger" type="button" id="request_cancel">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+@charset "ISO-8859-1";
+
+body {
+	background-color: #ebf2fa;
+	margin: 0px;
+    font-family: 'Oswald', sans-serif;
+}
+
+.bluecard{
+	margin: 0px auto;
+	background-color: #427aa1;
+	border-radius: 5px;
+}
+
+.center-form{
+	width: 300px;
+	margin-top: 100px;
+}
+
+.btn-custom{
+	background-color: #A5BE00;
+	color:black;
+}
+
+.btn-custom:hover {
+	background-color: #679436;
+	color: black;
+}
+
+.input-custom{
+	background-color: #ebf2fa;
+}
+
+.bluecard-top{
+	background-color: #A5BE00;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	color: #000;
+}
+
+.bluecard-contents{
+	padding: 10px;
+}
+
+.filled-box{
+	background-color: #ebf2fa;
+	border: 1px solid #064789;
+	color: #000;
+	padding: 3px;
+}
+
+.label-offset{
+	padding-left: 10px;
+	color: #fff;
+}
