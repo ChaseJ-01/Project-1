@@ -12,7 +12,7 @@
     <div style="padding-top: 3%">
         <div class="card" style="width: 30%; margin: 0px auto;">
             <div class="card-header" style="background-color: #a5be00;">
-                <h4>Reimbursement Request #12345</h4>
+                <h4 id="request_id">Reimbursement Request #12345</h4>
             </div>
             <div class="card-body" style="background-color: #427aa1; color: #000;">
                 <div class="container">
@@ -60,18 +60,33 @@
                     <br>
                     <div class="row">
                         <div class="col">
-                            <button class="btn btn-success btn-custom" type="button" id="request_approve">Approve</button>
+                            <a class="btn btn-success btn-custom" href="update?type=0?status=1">Approve</a>
                         </div>
                         <div class="col offset-md-1">
-                            <button class="btn btn-warning" type="button" id="request_reject">Reject</button>
+                            <a class="btn btn-warning" href="update?type=0?status=0">Reject</a>
                         </div>
                         <div class="col offset-md-1">
-                            <button class="btn btn-danger" type="button" id="request_cancel">Back</button>
+                            <a class="btn btn-danger" href="manager.html">Back</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+
+        function fill(id, employee, amount, type, status, desc){
+            document.getElementById("request_id").innerHTML = "Reimbursement Request #" + id
+            document.getElementById("request_employee").innerHTML = employee
+            document.getElementById("request_amount").innerHTML = amount
+            document.getElementById("request_type").innerHTML = type
+            document.getElementById("request_status").innerHTML = status
+            document.getElementById("request_desc").innerHTML = desc
+        }
+
+        fill(12345, "Mark", 500.00, "Lodging", "Pending", "I needed a hotel.")
+
+    </script>
 </body>
 </html>

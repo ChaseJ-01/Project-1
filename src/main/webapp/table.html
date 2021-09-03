@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="BaseStyle.css">
+    <title>Document</title>
+    <style>
+        tr{
+            background-color: #427AA1;
+        }
+        tr:hover{
+            background-color: #064789;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 3%; width: 60%; margin: 0px auto">
+        <table class="table" style="border: 1px solid #064789; color: #fff">
+            <thead style="background-color: #A5BE00; color: #000">
+                <tr style="background-color: #A5BE00">
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody id="table_body">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let requests = []
+
+        //This function populates the requests array
+        function addRequest(ID, Employee, Amount, Type, Status){
+            requests.push({"ID": ID, "Employee": Employee, "Amount": Amount, "Type": Type, "Status": Status})
+        }
+
+        function populate(){
+            let table = document.getElementById("table_body");
+            requests.forEach(request => {
+                let row = table.insertRow()
+                let ID = row.insertCell(0)
+                ID.innerHTML = request.ID
+                let Employee = row.insertCell(1)
+                Employee.innerHTML = request.Employee
+                let Amount = row.insertCell(2)
+                Amount.innerHTML = request.Amount
+                let Type = row.insertCell(3)
+                Type.innerHTML = request.Type
+                let Status = row.insertCell(4)
+                Status.innerHTML = request.Status
+                let Details = row.insertCell(5)
+                Details.innerHTML = "<a class='btn btn-success' style='background-color: #679436' href='details.html?id=" + request.ID + "'>Details</a>"
+            })
+        }
+    </script>
+</body>
+</html>

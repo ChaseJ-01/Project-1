@@ -1,4 +1,4 @@
-package com.project1.main;
+package com.project.main;
 
 public class User {
 	int id;

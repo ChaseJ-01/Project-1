@@ -1,4 +1,4 @@
-package com.project1.main;
+package com.project.main;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
