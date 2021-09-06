@@ -26,6 +26,7 @@
                     <th>Amount</th>
                     <th>Type</th>
                     <th>Status</th>
+                    <th>Timestamp</th>
                     <th>Details</th>
                 </tr>
             </thead>
@@ -38,8 +39,8 @@
         let requests = []
 
         //This function populates the requests array
-        function addRequest(ID, Employee, Amount, Type, Status){
-            requests.push({"ID": ID, "Employee": Employee, "Amount": Amount, "Type": Type, "Status": Status})
+        function addRequest(ID, Employee, Amount, Type, Status, Timestamp){
+            requests.push({"ID": ID, "Employee": Employee, "Amount": Amount, "Type": Type, "Status": Status, "Timestamp": Timestamp})
         }
 
         function populate(){
@@ -56,8 +57,10 @@
                 Type.innerHTML = request.Type
                 let Status = row.insertCell(4)
                 Status.innerHTML = request.Status
-                let Details = row.insertCell(5)
-                Details.innerHTML = "<a class='btn btn-success' style='background-color: #679436' href='details.html?id=" + request.ID + "'>Details</a>"
+                let Timestamp = row.insertCell(5)
+                Timestamp.innerHTML = request.Timestamp
+                let Details = row.insertCell(6)
+                Details.innerHTML = "<a class='btn btn-success' style='background-color: #679436' href='details?id=" + request.ID + "'>Details</a>"
             })
         }
     </script>

@@ -5,7 +5,8 @@ Maximum Green: #679436
 Acid Green: #A5BE00
 
 TODO:
-Remove the 'View Requests' link in index.html
 Add a back button to table pages
-Add a logout button to manager homepage
-Connect LogoutServlet to logout buttons
+Add javascript to details-employee
+Go through other TODOs
+Add a servlet to submit new records
+Add a servlet to update records

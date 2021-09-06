@@ -14,10 +14,9 @@ public class LogoutServlet extends HttpServlet{
 	public void doGet(HttpServletRequest req, HttpServletResponse res) {
 		try(PrintWriter out = res.getWriter()){
 			HttpSession ses = req.getSession(false);
-			ses.setAttribute("user_id", "null");
-			ses.setAttribute("user_type", "null");
 			ses.removeAttribute("user_id");
 			ses.removeAttribute("user_type");
+			ses.removeAttribute("user_name");
 			
 			RequestDispatcher rd = req.getRequestDispatcher("/index.html");
 			rd.forward(req, res);

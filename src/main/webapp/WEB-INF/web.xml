@@ -28,5 +28,14 @@
 		<servlet-name>logout</servlet-name>
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>details</servlet-name>
+		<servlet-class>com.project.servlets.DetailsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>details</servlet-name>
+		<url-pattern>/details</url-pattern>
+	</servlet-mapping>
 
 </web-app>
