@@ -27,9 +27,15 @@ public class LoginServlet extends HttpServlet{
 			if(!email.equals("") && !password.equals("")) {
 				if(email.equals(employee.getEmail()) && password.equals(employee.getHash())) {
 					RequestDispatcher rd = req.getRequestDispatcher("/employee.html");
+					HttpSession ses = req.getSession();
+					ses.setAttribute("user_id", employee.getId());
+					ses.setAttribute("user_type", employee.getType());
 					rd.forward(req, res);
 				} else if(email.equals(admin.getEmail()) && password.equals(admin.getHash())) {
 					RequestDispatcher rd = req.getRequestDispatcher("/manager.html");
+					HttpSession ses = req.getSession();
+					ses.setAttribute("user_id", admin.getId());
+					ses.setAttribute("user_type", admin.getType());
 					rd.forward(req, res);
 				} else {
 					out.println("Invalid username/password");
