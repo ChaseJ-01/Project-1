@@ -22,39 +22,21 @@ public class LoginServlet extends HttpServlet{
 			HttpSession ses = req.getSession();
 			UserDAO dao = UserDAOFactory.getUserDAO();
 			
-			if(ses.getAttribute("user_id") != null) {
-				if(ses.getAttribute("user_type").equals("Manager")) {
-					RequestDispatcher rd = req.getRequestDispatcher("/manager.html");
-					rd.include(req, res);
-				} else if(ses.getAttribute("user_type").equals("Employee")) {
-					RequestDispatcher rd = req.getRequestDispatcher("/employee.html");
-					rd.include(req, res);
-				} else {
-					RequestDispatcher rd = req.getRequestDispatcher("/logout");
-					rd.forward(req, res);
-				}
-			}
-			
 			if(!email.equals("") && !password.equals("")) {
 				User user = dao.loginUser(email, password);
 				if(user == null) {
-					out.println("Invalid username/password!");
+					out.println("<script language='Javascript'>alert('Invalid username/password combination!')</script>");
 					RequestDispatcher rd = req.getRequestDispatcher("/index.html");
-					rd.forward(req, res);
-					return;
-				}
-				
-				ses = req.getSession();
-				ses.setAttribute("user_id", user.getId());
-				ses.setAttribute("user_type", user.getType());
-				ses.setAttribute("user_name", user.getFirstName());
-				
-				if(user.getType().equals("Manager")) {
-					RequestDispatcher rd = req.getRequestDispatcher("/manager.html");
 					rd.include(req, res);
 				} else {
-					RequestDispatcher rd = req.getRequestDispatcher("/employee.html");
-					rd.include(req, res);
+					System.out.println("Setting Attributes - LoginServlet line 32");
+					ses = req.getSession();
+					ses.setAttribute("user_id", user.getId());
+					ses.setAttribute("user_type", user.getType());
+					ses.setAttribute("user_name", user.getFirstName());
+					
+					System.out.println("Going to Profile - LoginServlet line 38");
+					res.sendRedirect("profile");
 				}
 			} else {
 				out.println("Invalid username/password");
@@ -62,11 +44,6 @@ public class LoginServlet extends HttpServlet{
 				rd.forward(req, res);
 				return;
 			}
-			
-			out.println("<script language='Javascript'>");
-			out.println("document.getElementById('header').innerHTML = 'Welcome, ' + '" + ses.getAttribute("user_name") + "'");
-			out.println("</script>");
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

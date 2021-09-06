@@ -68,13 +68,13 @@
                     <br>
                     <div class="row">
                         <div class="col">
-                            <a class="btn btn-success btn-custom" href="update?type=0?status=1">Approve</a>
+                            <a class="btn btn-success btn-custom" id="btn_approve" href="#">Approve</a>
                         </div>
                         <div class="col offset-md-1">
-                            <a class="btn btn-warning" href="update?type=0?status=0">Reject</a>
+                            <a class="btn btn-warning" id="btn_reject" href="#">Reject</a>
                         </div>
                         <div class="col offset-md-1">
-                            <a class="btn btn-danger" href="javascript:history.back()">Back</a>
+                            <a class="btn btn-danger" href="profile">Back</a>
                         </div>
                     </div>
                 </div>
@@ -92,6 +92,8 @@
             document.getElementById("request_type").innerHTML = type
             document.getElementById("request_status").innerHTML = status
             document.getElementById("request_desc").innerHTML = desc
+            document.getElementById("btn_approve").href = "add?newStatus=Approved&id=" + id
+            document.getElementById("btn_reject").href = "add?newStatus=Rejected&id=" + id
         }
 
     </script>

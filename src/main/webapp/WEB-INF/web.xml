@@ -46,5 +46,22 @@
 		<servlet-name>add</servlet-name>
 		<url-pattern>/add</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>delete</servlet-name>
+		<servlet-class>com.project.servlets.DeleteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>delete</servlet-name>
+		<url-pattern>/delete</url-pattern>
+	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>profile</servlet-name>
+		<servlet-class>com.project.servlets.ProfileServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>profile</servlet-name>
+		<url-pattern>/profile</url-pattern>
+	</servlet-mapping>
 </web-app>

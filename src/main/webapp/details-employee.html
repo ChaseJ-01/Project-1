@@ -16,6 +16,14 @@
             </div>
             <div class="card-body" style="background-color: #427aa1; color: #000;">
                 <div class="container">
+               		<div class="row" style="border: 1px solid #064789;">
+                        <div class="col col-md-4" style="background-color: #679436">
+                            <h5 style="padding-top: 5px;">Timestamp</h5>
+                        </div>
+                        <div class="col" style="background-color: #ebf2fa; color: #000;">
+                            <h5 style="padding-top: 5px;" id="request_ts">Timestamp</h5>
+                        </div>
+                    </div>
                     <div class="row" style="border: 1px solid #064789;">
                         <div class="col col-md-4" style="background-color: #679436">
                             <h5 style="padding-top: 5px;">Status</h5>
@@ -46,24 +54,39 @@
                             <h5 style="padding-top: 5px;">Description</h5>
                         </div>
                         <div class="row" style="background-color: #ebf2fa; color: #000;">
-                            <p style="padding-top: 5px;" id="request_desc">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
+                            <p style="padding-top: 5px;" id="request_desc">Description</p>
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col">
-                            <button class="btn btn-success btn-custom" type="button" id="request_edit">Edit</button>
+                            <a class="btn btn-success btn-custom" type="button" id="request_edit" href="#">Edit</a>
                         </div>
                         <div class="col offset-md-1">
-                            <button class="btn btn-warning" type="button" id="request_delete">Delete</button>
+                            <a class="btn btn-warning" type="button" id="request_delete" href="#">Delete</a>
                         </div>
                         <div class="col offset-md-1">
-                            <button class="btn btn-danger" type="button" id="request_cancel">Back</button>
+                            <a class="btn btn-danger" type="button" id="request_cancel" href="profile">Back</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <script>
+
+        function fill(id, employee, amount, type, status, timestamp, desc){
+            document.getElementById("request_id").innerHTML = "Reimbursement Request #" + id
+            document.getElementById("request_ts").innerHTML = timestamp
+            document.getElementById("request_amount").innerHTML = amount
+            document.getElementById("request_type").innerHTML = type
+            document.getElementById("request_status").innerHTML = status
+            document.getElementById("request_desc").innerHTML = desc
+            document.getElementById("request_edit").href = "add?id=" + id
+            document.getElementById("request_delete").href = "delete?id=" + id
+        }
+
+    </script>
 </body>
 </html>

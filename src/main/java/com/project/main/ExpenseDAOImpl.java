@@ -39,14 +39,13 @@ public class ExpenseDAOImpl implements ExpenseDAO {
     @Override
     public void updateExpense(Expense expense) throws SQLException {
     	//TODO fix this
-        String sql = "UPDATE Expenses SET requestAmount = ?,"
-        		+ "requestType = ?, requestStatus = ?, "
-        		+ "requestDescription = ? WHERE id = ?";
+        String sql = "UPDATE Expenses SET amount = ?, type = ?, status = ?, description = ? WHERE id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setDouble(1, expense.getRequestAmount());
         preparedStatement.setString(2, expense.getRequestType());
         preparedStatement.setString(3, expense.getRequestStatus());
         preparedStatement.setString(4, expense.getRequestDescription());
+        preparedStatement.setInt(5, expense.getRequestId());
         int count = preparedStatement.executeUpdate();
         if(count > 0)
             System.out.println("Expense updated");
@@ -90,7 +89,7 @@ public class ExpenseDAOImpl implements ExpenseDAO {
     	String sql = "SELECT * FROM Expenses WHERE id = ?";
     	PreparedStatement ps = connection.prepareStatement(sql);
     	ps.setInt(1, id);
-    	ResultSet rs = ps.executeQuery(sql);
+    	ResultSet rs = ps.executeQuery();
     	
     	if( rs.next() ) {
     		return new Expense(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
@@ -101,17 +100,12 @@ public class ExpenseDAOImpl implements ExpenseDAO {
     
     @Override
     public List<Expense> getExpenseByEmployee(int employeeID, boolean pending) throws SQLException {
-    	String sql;
+    	String sql = "SELECT * FROM Expenses WHERE employeeId = ?";
     	if(pending) {
-    		sql = "SELECT * FROM Expenses WHERE employeeId = ? AND status = ?";
-    	} else {
-    		sql = "SELECT * FROM Expenses WHERE employeeId = ?";
+    		sql = sql + " AND status = 'Pending'";
     	}
-		PreparedStatement ps = connection.prepareStatement(sql);
-		ps.setInt(1, employeeID);
-		if(pending) {
-			ps.setString(2, "Pending");
-		}
+    	PreparedStatement ps = connection.prepareStatement(sql);
+    	ps.setInt(1, employeeID);
 		ResultSet rs = ps.executeQuery();
 		List<Expense> expenseList = new ArrayList<Expense>();
     	
@@ -129,7 +123,7 @@ public class ExpenseDAOImpl implements ExpenseDAO {
     	String sql = "SELECT * FROM Users WHERE id = ?";
     	PreparedStatement ps = connection.prepareStatement(sql);
     	ps.setInt(1, expense.getEmployeeID());
-    	ResultSet rs = ps.executeQuery(sql);
+    	ResultSet rs = ps.executeQuery();
     	
     	if( rs.next() ) {
     		return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));

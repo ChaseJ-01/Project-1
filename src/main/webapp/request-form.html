@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="bluecard-contents">
-            <form class="row g-3" name="request_form" action="add" method="post">
+            <form class="row g-3" name="request_form" action="add">
             	<input type="number" name="request_id" id="request_id" hidden="true" value="0"/>
                 <div class="col-md-12">
                     <label for="request_amount" class="form-label label-offset">Amount</label>
@@ -52,7 +52,7 @@
                         <button class="btn btn-success btn-custom" type="submit" name="request_submit">Submit</button>
                     </div>
                     <div class="col offset-md-2">
-                        <button class="btn btn-danger" type="button" name="request_cancel">Cancel</button>
+                        <a class="btn btn-danger" type="button" name="request_cancel" href="profile">Cancel</a>
                     </div>
                 </div>
             </form>

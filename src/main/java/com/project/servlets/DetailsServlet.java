@@ -28,7 +28,7 @@ public class DetailsServlet extends HttpServlet{
 			
 			int idParam = Integer.parseInt(req.getParameter("id"));
 			if(ses.getAttribute("user_type") == null) {
-				RequestDispatcher rd = req.getRequestDispatcher("/index.html");
+				RequestDispatcher rd = req.getRequestDispatcher("/logout");
 				rd.forward(req, res);
 			} else if(ses.getAttribute("user_type").equals("Employee")) {
 				RequestDispatcher rd = req.getRequestDispatcher("/details-employee.html");
