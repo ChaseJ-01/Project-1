@@ -1,5 +1,7 @@
 package com.project.main;
 
+import java.sql.SQLException;
+
 public class User {
 	int id;
 	String first_name;
@@ -20,6 +22,22 @@ public class User {
 		this.hash = hash;
 		this.salt = salt;
 		this.type = type;
+	}
+	
+	public static void createNew(String first_name, String last_name, String email, String password, String type) {
+		User user = new User();
+		user.first_name = first_name;
+		user.last_name = last_name;
+		user.email = email;
+		user.salt = PasswordManager.getPasswordManager().newSalt();
+		user.hash = PasswordManager.getPasswordManager().getHash(password, user.salt);
+		user.type = type;
+		try {
+			UserDAOFactory.getUserDAO().addUser(user);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//There's no setter for id because SQL will generate one for you.

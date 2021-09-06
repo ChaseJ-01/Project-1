@@ -16,8 +16,7 @@ public class ConnectionFactory {
         	// Step 1: load the driver
     		//Class.forName("jdbc:mysql://localhost:3306/project0");
     		// Step 2: Create connection object
-    		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/project0", "root", "mySQL1");
-            
+    		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Project_1", "root", "root");
         }
         return connection;
     }

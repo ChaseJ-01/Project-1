@@ -22,14 +22,13 @@ public class ExpenseDAOImpl implements ExpenseDAO {
 
     @Override
     public void addExpense(Expense expense) throws SQLException {
-        String sql = "INSERT INTO Expense (expenseAmount, expenseType,"
-        		+ "expenseStatus, expenseDescription) values "
-        		+ "(?,?,?,?)";
+        String sql = "INSERT INTO Expenses (employeeId, amount, type, status, description) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setDouble(1, expense.getRequestAmount());
-        preparedStatement.setInt(2, expense.getRequestType());
-        preparedStatement.setBoolean(3, expense.getRequestStatus());
-        preparedStatement.setString(4, expense.getRequestDescription());
+        preparedStatement.setInt(1, expense.getEmployeeID());
+        preparedStatement.setDouble(2, expense.getRequestAmount());
+        preparedStatement.setString(3, expense.getRequestType());
+        preparedStatement.setString(4, expense.getRequestStatus());
+        preparedStatement.setString(5, expense.getRequestDescription());
         int count = preparedStatement.executeUpdate();
         if(count > 0)
             System.out.println("Expense saved");
@@ -39,13 +38,14 @@ public class ExpenseDAOImpl implements ExpenseDAO {
 
     @Override
     public void updateExpense(Expense expense) throws SQLException {
-        String sql = "UPDATE Expense SET requestAmount = ?,"
+    	//TODO fix this
+        String sql = "UPDATE Expenses SET requestAmount = ?,"
         		+ "requestType = ?, requestStatus = ?, "
         		+ "requestDescription = ? WHERE id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setDouble(1, expense.getRequestAmount());
-        preparedStatement.setInt(2, expense.getRequestType());
-        preparedStatement.setBoolean(3, expense.getRequestStatus());
+        preparedStatement.setString(2, expense.getRequestType());
+        preparedStatement.setString(3, expense.getRequestStatus());
         preparedStatement.setString(4, expense.getRequestDescription());
         int count = preparedStatement.executeUpdate();
         if(count > 0)
@@ -56,7 +56,7 @@ public class ExpenseDAOImpl implements ExpenseDAO {
 
     @Override
     public void deleteExpense(int id) throws SQLException {
-        String sql = "DELETE FROM Expense WHERE id = ?";
+        String sql = "DELETE FROM Expenses WHERE id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, id);
         int count = preparedStatement.executeUpdate();
@@ -67,30 +67,19 @@ public class ExpenseDAOImpl implements ExpenseDAO {
     }
 
     @Override
-    public List<Expense> getAllExpenses() throws SQLException {
-    	int expseID = -1;
-    	double amount = 0.0;
-    	int type = -1;
-    	boolean status = false;
-    	String description = "";
-    	
-    	String sql = "SELECT id, requestAmount, requestType,"
-    			+ "requestStatus, requestDescription "
-    			+ "FROM Expenses";
-    	
+    public List<Expense> getAllExpenses(boolean pending) throws SQLException {
+    	String sql;
+    	if(pending) {
+    		sql = "SELECT * FROM Expenses WHERE status = 'Pending'";
+    	} else {
+    		sql = "SELECT * FROM Expenses";
+    	}
     	statement = connection.createStatement();
-    	ResultSet resultSet = statement.executeQuery(sql);
+    	ResultSet rs = statement.executeQuery(sql);
     	List<Expense> expenseList = new ArrayList<Expense>();
     	
-    	while( resultSet.next() ) {
-    		expseID = resultSet.getInt(0);
-    		amount = resultSet.getDouble(1);
-    		type = resultSet.getInt(2);
-    		status = resultSet.getBoolean(3);
-    		description = resultSet.getString(4);
-    		
-    		expenseList.add(new Expense(expseID, amount, type,
-    				status, description));
+    	while( rs.next() ) {
+    		expenseList.add(new Expense(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
     	}
     	
     	return expenseList;
@@ -98,30 +87,54 @@ public class ExpenseDAOImpl implements ExpenseDAO {
 
     @Override
     public Expense getExpenseById(int id) throws SQLException {
-    	int expseID = -1;
-    	double amount = 0.0;
-    	int type = -1;
-    	boolean status = false;
-    	String description = "";
-    	Expense expense = null;
+    	String sql = "SELECT * FROM Expenses WHERE id = ?";
+    	PreparedStatement ps = connection.prepareStatement(sql);
+    	ps.setInt(1, id);
+    	ResultSet rs = ps.executeQuery(sql);
     	
-    	String sql = "SELECT id, requestAmount, requestType,"
-    			+ "requestStatus, requestDescription "
-    			+ "FROM Expenses WHERE id = " + id;
-    	Statement statement = connection.createStatement();
-    	ResultSet resultSet = statement.executeQuery(sql);
-    	
-    	if( resultSet.next() ) {
-    		expseID = resultSet.getInt(0);
-    		amount = resultSet.getDouble(1);
-    		type = resultSet.getInt(2);
-    		status = resultSet.getBoolean(3);
-    		description = resultSet.getString(4);
-    		expense = new Expense(expseID,
-    				amount, type, status,
-    				description);
-    		
+    	if( rs.next() ) {
+    		return new Expense(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
     	}
-        return expense;
+    	
+        return null;
+    }
+    
+    @Override
+    public List<Expense> getExpenseByEmployee(int employeeID, boolean pending) throws SQLException {
+    	String sql;
+    	if(pending) {
+    		sql = "SELECT * FROM Expenses WHERE employeeId = ? AND status = ?";
+    	} else {
+    		sql = "SELECT * FROM Expenses WHERE employeeId = ?";
+    	}
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setInt(1, employeeID);
+		if(pending) {
+			ps.setString(2, "Pending");
+		}
+		ResultSet rs = ps.executeQuery();
+		List<Expense> expenseList = new ArrayList<Expense>();
+    	
+    	while( rs.next() ) {
+    		expenseList.add(new Expense(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
+    	}
+    	
+    	return expenseList;
+    }
+    
+    @Override
+    public User getUserByExpenseId(int id) throws SQLException{
+    	Expense expense = getExpenseById(id);
+    	
+    	String sql = "SELECT * FROM Users WHERE id = ?";
+    	PreparedStatement ps = connection.prepareStatement(sql);
+    	ps.setInt(1, expense.getEmployeeID());
+    	ResultSet rs = ps.executeQuery(sql);
+    	
+    	if( rs.next() ) {
+    		return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+    	}
+    	
+        return null;
     }
 }

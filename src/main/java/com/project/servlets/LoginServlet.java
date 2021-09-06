@@ -3,6 +3,8 @@ package com.project.servlets;
 import java.io.PrintWriter;
 
 import com.project.main.User;
+import com.project.main.UserDAO;
+import com.project.main.UserDAOFactory;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServlet;
@@ -17,47 +19,55 @@ public class LoginServlet extends HttpServlet{
 		try(PrintWriter out = res.getWriter()){
 			String email = req.getParameter("user_email");
 			String password = req.getParameter("user_pass");
-			HttpSession ses = null;
+			HttpSession ses = req.getSession();
+			UserDAO dao = UserDAOFactory.getUserDAO();
 			
-			//TODO search database for email/password combination, then check user type
-			//These are dummy objects, feel free to mess with them
-			User employee = new User(1, "Mark", "Johns", "employee@gmail.com", "employee", "employee",  "Employee");
-			User admin = new User(2, "Gina", "Hall", "admin@gmail.com", "admin", "admin", "Admin");
-			
-			//This is dummy code to get a single User object
-			//TODO replace this code with something that searches the database for a valid User object
-			//This code should check the user type and send them to employee.html if they are an employee or manager.html if they are a manager
-			if(!email.equals("") && !password.equals("")) {
-				if(email.equals(employee.getEmail()) && password.equals(employee.getHash())) {
-					RequestDispatcher rd = req.getRequestDispatcher("/employee.html");
-					ses = req.getSession();
-					ses.setAttribute("user_id", employee.getId());
-					ses.setAttribute("user_type", employee.getType());
-					ses.setAttribute("user_name", employee.getFirstName());
-					rd.include(req, res);
-				} else if(email.equals(admin.getEmail()) && password.equals(admin.getHash())) {
+			if(ses.getAttribute("user_id") != null) {
+				if(ses.getAttribute("user_type").equals("Manager")) {
 					RequestDispatcher rd = req.getRequestDispatcher("/manager.html");
-					ses = req.getSession();
-					ses.setAttribute("user_id", admin.getId());
-					ses.setAttribute("user_type", admin.getType());
-					ses.setAttribute("user_name", admin.getFirstName());
+					rd.include(req, res);
+				} else if(ses.getAttribute("user_type").equals("Employee")) {
+					RequestDispatcher rd = req.getRequestDispatcher("/employee.html");
 					rd.include(req, res);
 				} else {
-					out.println("Invalid username/password");
+					RequestDispatcher rd = req.getRequestDispatcher("/logout");
+					rd.forward(req, res);
+				}
+			}
+			
+			if(!email.equals("") && !password.equals("")) {
+				User user = dao.loginUser(email, password);
+				if(user == null) {
+					out.println("Invalid username/password!");
 					RequestDispatcher rd = req.getRequestDispatcher("/index.html");
+					rd.forward(req, res);
+					return;
+				}
+				
+				ses = req.getSession();
+				ses.setAttribute("user_id", user.getId());
+				ses.setAttribute("user_type", user.getType());
+				ses.setAttribute("user_name", user.getFirstName());
+				
+				if(user.getType().equals("Manager")) {
+					RequestDispatcher rd = req.getRequestDispatcher("/manager.html");
+					rd.include(req, res);
+				} else {
+					RequestDispatcher rd = req.getRequestDispatcher("/employee.html");
 					rd.include(req, res);
 				}
 			} else {
 				out.println("Invalid username/password");
 				RequestDispatcher rd = req.getRequestDispatcher("/index.html");
-				rd.include(req, res);
+				rd.forward(req, res);
+				return;
 			}
 			
 			out.println("<script language='Javascript'>");
 			out.println("document.getElementById('header').innerHTML = 'Welcome, ' + '" + ses.getAttribute("user_name") + "'");
 			out.println("</script>");
 			
-		} catch (Exception e) { //TODO Change exception
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

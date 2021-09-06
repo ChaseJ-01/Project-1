@@ -9,7 +9,6 @@ import java.util.List;
 import com.project.main.Expense;
 import com.project.main.ExpenseDAO;
 import com.project.main.ExpenseDAOFactory;
-import com.project.main.RRequest;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -26,49 +25,37 @@ public class TableServlet extends HttpServlet{
 		res.setContentType("text/html");
 		
 		try(PrintWriter out = res.getWriter()){
-			List<Expense> requestList = new ArrayList<Expense>(); //TODO Fill this list
-			HttpSession ses = req.getSession();
-			RequestDispatcher rd = req.getRequestDispatcher("/table.html");
-			rd.include(req, res);
-			//ExpenseDAO dao = ExpenseDAOFactory.getExpenseDao();
+			List<Expense> requestList = new ArrayList<Expense>();
+			HttpSession ses = req.getSession(false);
+			
+			ExpenseDAO dao = ExpenseDAOFactory.getExpenseDao();
 			
 			String filter = req.getParameter("filter");
 			
-			//TODO Use this filter parameter to determine what elements to display.
-			//If filter.equals("all") then display all. If filter.equals("pending") then display all pending.
-			//If filter.equals("employee") then grab user_id from the session and display only that user's requests.
-			//If filter.equals("epending") then grab user_id and display only pending requests for that user.
+			if(filter.equals("all") && ses.getAttribute("user_type").equals("Manager")) {
+				requestList = dao.getAllExpenses(false);
+			} else if(filter.equals("pending") && ses.getAttribute("user_type").equals("Manager")) {
+				requestList = dao.getAllExpenses(true);
+			} else if(filter.equals("all") && ses.getAttribute("user_type").equals("Employee")) {
+				requestList = dao.getExpenseByEmployee(Integer.parseInt(ses.getAttribute("user_id").toString()), false);
+			} else if(filter.equals("pending") && ses.getAttribute("user_type").equals("Employee")) {
+				requestList = dao.getExpenseByEmployee(Integer.parseInt(ses.getAttribute("user_id").toString()), true);
+			} else {
+				RequestDispatcher rd = req.getRequestDispatcher("/logout");
+				rd.forward(req, res);
+			}
 			
-			/*if(filter.equals("all")) {
-				requestList = dao.getAllExpenses();
-			}*/
+			RequestDispatcher rd = req.getRequestDispatcher("/table.html");
+			rd.include(req, res);
 			
-			requestList.add(new Expense(5, 500.00, 3, true, "pergle"));
-			requestList.add(new Expense(6, 500.00, 2, false, "blarf"));
-			
-			//Writes some Javascript that takes an RRequest object array and populates a table.
-			//TODO change the getUserID call to instead get employee's name.
 			out.println("<script language='Javascript'>");
 			for(Expense r : requestList) {
-				out.println("addRequest(" + r.getRequestId() + ",'" + "Mark" /*TODO r.getUserId()*/ + "'," + r.getRequestAmount() + ",'" + selectType(r.getRequestType()) + "','" + selectStatus(r.getRequestStatus()) + "','" + "10/10/2020" + "');");
+				out.println("addRequest(" + r.getRequestId() + ",'" + dao.getUserByExpenseId(r.getRequestId()).getLastName() + "'," + r.getRequestAmount() + ",'" + r.getRequestType() + "','" + r.getRequestStatus() + "','" + r.getRequestTimestamp() + "');");
 			}
 			out.println("populate()");
 			out.println("</script>");
-		} catch (Exception e) { //TODO change exception type
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private String selectType(int i) {
-		switch(i) {
-			case 0: return "Travel";
-			case 1: return "Food";
-			case 2: return "Lodging";
-			default: return "Other";
-		}
-	}
-	
-	private String selectStatus(boolean status) {
-		return status ? "Approved" : "Pending";
 	}
 }
