@@ -64,4 +64,13 @@
 		<servlet-name>profile</servlet-name>
 		<url-pattern>/profile</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>update</servlet-name>
+		<servlet-class>com.project.servlets.UpdateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>update</servlet-name>
+		<url-pattern>/update</url-pattern>
+	</servlet-mapping>
 </web-app>

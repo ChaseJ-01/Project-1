@@ -26,7 +26,7 @@ public class AddServlet extends HttpServlet{
 			int id = 0;
 			int userId = Integer.parseInt(ses.getAttribute("user_id").toString());
 			
-			if(req.getParameter("id") != null) {
+			if(req.getParameter("id") != null && Integer.parseInt(req.getParameter("id")) != 0) {
 				id = Integer.parseInt(req.getParameter("id"));
 				if(req.getParameter("newStatus") != null && ses.getAttribute("user_type").equals("Manager")) {
 					expense = dao.getExpenseById(id);
@@ -38,11 +38,11 @@ public class AddServlet extends HttpServlet{
 						dao.updateExpense(expense);
 					}
 				} else {
-					expense = new Expense(id, userId, Double.parseDouble(req.getParameter("request_amount").toString()), req.getParameter("request_type"), "Pending", req.getParameter("request_desc"), "");
+					expense = new Expense(id, userId, Double.parseDouble(req.getParameter("request_amount")), req.getParameter("request_type"), "Pending", req.getParameter("request_desc"), "");
 					dao.updateExpense(expense);
 				}
 			} else {
-				expense = new Expense(id, userId, Double.parseDouble(req.getParameter("request_amount").toString()), req.getParameter("request_type"), "Pending", req.getParameter("request_desc"), "");
+				expense = new Expense(id, userId, Double.parseDouble(req.getParameter("request_amount")), req.getParameter("request_type"), "Pending", req.getParameter("request_desc"), "");
 				dao.addExpense(expense);
 			}
 			res.sendRedirect("profile");

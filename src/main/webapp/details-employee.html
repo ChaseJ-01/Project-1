@@ -83,8 +83,12 @@
             document.getElementById("request_type").innerHTML = type
             document.getElementById("request_status").innerHTML = status
             document.getElementById("request_desc").innerHTML = desc
-            document.getElementById("request_edit").href = "add?id=" + id
+            document.getElementById("request_edit").href = "update?id=" + id
             document.getElementById("request_delete").href = "delete?id=" + id
+            if(status != "Pending") {
+            	document.getElementById("request_edit").style.display = "none"
+            	document.getElementById("request_delete").style.display = "none"
+            }
         }
 
     </script>

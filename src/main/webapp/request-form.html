@@ -22,20 +22,20 @@
             </div>
         </div>
         <div class="bluecard-contents">
-            <form class="row g-3" name="request_form" action="add">
-            	<input type="number" name="request_id" id="request_id" hidden="true" value="0"/>
+            <form class="row g-3" name="request_form" id="request_form" action="add">
+            	<input type="number" name="id" id="request_id" hidden="true" value="0"/>
                 <div class="col-md-12">
                     <label for="request_amount" class="form-label label-offset">Amount</label>
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <span class="input-group-text">$</span>
                         </div>
-                        <input type="number" name="request_amount" class="form-control currency" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" required />
+                        <input type="number" name="request_amount" id="request_amount" class="form-control currency" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" required />
                     </div>
                 </div>
                 <div class="col-md-12">
                     <label for="request_type" class="form-label label-offset">Type</label>
-                    <select class="custom-select" name="request_type" required>
+                    <select class="custom-select" name="request_type" id="request_type" required>
                         <option value="" selected disabled>SELECT ONE</option>
                         <option value="Lodging">Lodging</option>
                         <option value="Travel">Travel</option>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="col-md-12">
                     <label for="request_desc" class="form-label label-offset">Description</label>
-                    <textarea class="form-control" name="request_desc" rows="3"></textarea>
+                    <textarea class="form-control" name="request_desc" rows="3" id="request_desc"></textarea>
                 </div>
                 <div class="row" style="padding-top: 8px;">
                     <div class="col offset-md-1">
@@ -60,13 +60,12 @@
     </div>
 
     <script>
-        function validateForm(){
-            let f = document.forms["request_form"]["request_type"].value;
-            if(f == "SELECT ONE"){
-                alert("Must select a type!");
-                return false;
-            }
-        }
+        function fill(id, amount, type, description){
+    		document.getElementById("request_id").value = id
+    		document.getElementById("request_amount").value = amount
+    		document.getElementById("request_type").value = type
+    		document.getElementById("request_desc").value = description
+    	}
     </script>
 </body>
 </html>

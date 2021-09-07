@@ -29,13 +29,11 @@ public class LoginServlet extends HttpServlet{
 					RequestDispatcher rd = req.getRequestDispatcher("/index.html");
 					rd.include(req, res);
 				} else {
-					System.out.println("Setting Attributes - LoginServlet line 32");
 					ses = req.getSession();
 					ses.setAttribute("user_id", user.getId());
 					ses.setAttribute("user_type", user.getType());
 					ses.setAttribute("user_name", user.getFirstName());
 					
-					System.out.println("Going to Profile - LoginServlet line 38");
 					res.sendRedirect("profile");
 				}
 			} else {
